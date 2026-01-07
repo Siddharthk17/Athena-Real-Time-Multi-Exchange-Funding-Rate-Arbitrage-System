@@ -1,0 +1,7 @@
+aiohttp
+flask
+python-telegram-bot
+python-dotenv
+pydantic
+rich
+uvloop  # For blazing fast async on Linux/Mac

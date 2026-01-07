@@ -4,7 +4,7 @@
 
 ### Real-Time Multi-Exchange Funding Rate Arbitrage System
 
-[![Python](https://img.shields.io/badge/Python-3.9+-3776AB? style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![Async](https://img.shields.io/badge/Async-Powered-6366f1?style=for-the-badge&logo=fastapi&logoColor=white)](https://docs.python.org/3/library/asyncio.html)
 [![License](https://img.shields.io/badge/License-MIT-10b981?style=for-the-badge)](LICENSE)
 [![Exchanges](https://img.shields.io/badge/Exchanges-13+-ef4444?style=for-the-badge&logo=bitcoin&logoColor=white)](#-supported-exchanges)
@@ -18,7 +18,7 @@
 <br/><br/>
 
 ```
-    █████╗ ████████╗██╗  ██╗███████╗███╗   ██╗ █████╗ 
+    █████╗ ████████╗██╗  ��█╗███████╗███╗   ██╗ █████╗ 
    ██╔══██╗╚══██╔══╝██║  ██║██╔════╝████╗  ██║██╔══██╗
    ███████║   ██║   ███████║█████╗  ██╔██╗ ██║███████║
    ██╔══██║   ██║   ██╔══██║██╔══╝  ██║╚██╗██║██╔══██║
@@ -36,7 +36,7 @@
 
 [**Getting Started**](#-quick-start) •
 [**Features**](#-features) •
-[**Dashboard**](#-web-dashboard) •
+[**Dashboard**](#%EF%B8%8F-web-dashboard) •
 [**Configuration**](#%EF%B8%8F-configuration) •
 [**Contributing**](#-contributing)
 
@@ -74,29 +74,29 @@ Funding rates are periodic payments exchanged between long and short positions i
 <tr>
 <td width="50%">
 
-### 🚀 **Performance**
+### 🚀 Performance
 - **Ultra-fast async fetching** with `aiohttp`
 - **~200ms** update cycle across all exchanges
 - **uvloop** integration for blazing speed on Unix
 - Thread-safe, production-ready architecture
 
-### 📊 **Real-Time Dashboard**
+### 📊 Real-Time Dashboard
 - Beautiful glassmorphism web UI
 - Live opportunity table with filtering
-- Interactive Chart. js visualizations
+- Interactive Chart.js visualizations
 - Funding countdown timer
 - Exchange dominance analytics
 
 </td>
 <td width="50%">
 
-### 🔔 **Smart Alerts**
+### 🔔 Smart Alerts
 - **Telegram notifications** with rich formatting
 - Hourly digest of top opportunities
 - Customizable spread thresholds
 - Multi-chat support
 
-### 📈 **Analytics**
+### 📈 Analytics
 - Annualized spread calculations
 - Exchange dominance tracking
 - Historical opportunity logging
@@ -116,7 +116,7 @@ Funding rates are periodic payments exchanged between long and short positions i
 |: --------:|:------:|:--------:|: ------:|
 | ![Binance](https://img.shields.io/badge/Binance-FCD535?style=flat-square&logo=binance&logoColor=black) | ✅ Live | ![OKX](https://img.shields.io/badge/OKX-000000?style=flat-square&logoColor=white) | ✅ Live |
 | ![Bybit](https://img.shields.io/badge/Bybit-F7A600?style=flat-square&logoColor=white) | ✅ Live | ![KuCoin](https://img.shields.io/badge/KuCoin-23AF91?style=flat-square&logoColor=white) | ✅ Live |
-| ![Bitget](https://img.shields.io/badge/Bitget-00CEA6?style=flat-square&logoColor=white) | ✅ Live | ![Gate.io](https://img.shields.io/badge/Gate. io-17E7B6?style=flat-square&logoColor=white) | ✅ Live |
+| ![Bitget](https://img.shields.io/badge/Bitget-00CEA6?style=flat-square&logoColor=white) | ✅ Live | ![GateIO](https://img.shields.io/badge/Gate.io-17E7B6?style=flat-square&logoColor=white) | ✅ Live |
 | ![MEXC](https://img.shields.io/badge/MEXC-1972F5?style=flat-square&logoColor=white) | ✅ Live | ![Huobi](https://img.shields.io/badge/Huobi-1F5CFF?style=flat-square&logoColor=white) | ✅ Live |
 | ![BingX](https://img.shields.io/badge/BingX-2952CC?style=flat-square&logoColor=white) | ✅ Live | ![Kraken](https://img.shields.io/badge/Kraken-5741D9?style=flat-square&logoColor=white) | ✅ Live |
 | ![dYdX](https://img.shields.io/badge/dYdX-6966FF?style=flat-square&logoColor=white) | ✅ Live | ![BitMEX](https://img.shields.io/badge/BitMEX-D83E31?style=flat-square&logoColor=white) | ✅ Live |
@@ -134,13 +134,13 @@ The built-in **Command Center** provides a stunning real-time interface:
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────┐
-│  ⚡ ATHENA                                           🟢 System Online   │
+│  ⚡ ATHENA                                           🟢 System Online    │
 ├──────────────────────────────────────────────────────────────────────────┤
 │                                                                          │
 │  ┌─────────────┐ ┌─────────────┐ ┌─────────────────────┐ ┌────────────┐ │
-│  │ TOP SPREAD  │ │ OPPORTUNITIES│ │ EXCHANGE DOMINANCE  │ │  METADATA  │ │
-│  │   0.4523%   │ │     47      │ │ Long:  Bybit         │ │ 13 Exch.    │ │
-│  │  High Yield │ │   Active    │ │ Short: Binance      │ │ 892 Pairs  │ │
+│  │ TOP SPREAD  │ │OPPORTUNITIES│ │ EXCHANGE DOMINANCE  │ │  METADATA  │ │
+│  │   0.4523%   │ │     47      │ │ Long:   Bybit        │ │ 13 Exch.    │ │
+│  │  High Yield │ │   Active    │ │ Short:  Binance      │ │ 892 Pairs  │ │
 │  └─────────────┘ └─────────────┘ └─────────────────────┘ └────────────┘ │
 │                                                                          │
 │  ┌────────────────────────────────────────────────────────────────────┐ │
@@ -156,7 +156,7 @@ The built-in **Command Center** provides a stunning real-time interface:
 
 **Features:**
 - 🎨 Dark glassmorphism design with neon accents
-- 📊 Live Chart. js bar graphs for top spreads
+- 📊 Live Chart.js bar graphs for top spreads
 - 🔍 Real-time search & filtering
 - ⏱️ UTC clock & funding countdown timer
 - 📡 Activity feed with live execution logs
@@ -174,7 +174,7 @@ The built-in **Command Center** provides a stunning real-time interface:
 
 ```bash
 # Clone the repository
-git clone https://github.com/Siddharthk17/Real-Time-Multi-Exchange-Funding-Rate-Arbitrage-System. git
+git clone https://github.com/Siddharthk17/Real-Time-Multi-Exchange-Funding-Rate-Arbitrage-System.git
 cd Real-Time-Multi-Exchange-Funding-Rate-Arbitrage-System
 
 # Install dependencies
@@ -201,9 +201,7 @@ python main.py
 Create a `.env` file in the project root:
 
 ```env
-# ═══════════════════════════════════════════════════════════════
-#                    ATHENA CONFIGURATION
-# ═══════════════════════════════════════════════════════════════
+# ATHENA CONFIGURATION
 
 # Minimum spread threshold (%) to trigger an opportunity
 MIN_SPREAD=0.025
@@ -211,7 +209,7 @@ MIN_SPREAD=0.025
 # Data fetch interval in seconds
 FETCH_INTERVAL=0.0001
 
-# ───────────────────── TELEGRAM ALERTS ─────────────────────────
+# TELEGRAM ALERTS
 # Get your bot token from @BotFather on Telegram
 TELEGRAM_BOT_TOKEN=your_bot_token_here
 
@@ -231,7 +229,7 @@ TELEGRAM_CHAT_IDS=123456789,987654321
 ├── 🔔 notifier.py          # Telegram notification system
 ├── 📊 models.py            # Pydantic data models (FundingRate, Opportunity)
 ├── 📋 requirements.txt     # Python dependencies
-├── 🔐 . env                 # Environment configuration
+├── 🔐 .env                 # Environment configuration
 └── 📄 LICENSE              # MIT License
 ```
 
@@ -243,7 +241,7 @@ TELEGRAM_CHAT_IDS=123456789,987654321
 
 | Category | Technologies |
 |:--------:|:-------------|
-| **Runtime** | ![Python](https://img.shields.io/badge/Python_3.9+-3776AB?style=flat-square&logo=python&logoColor=white) ![uvloop](https://img.shields.io/badge/uvloop-00ADD8? style=flat-square&logoColor=white) |
+| **Runtime** | ![Python](https://img.shields.io/badge/Python_3.9+-3776AB?style=flat-square&logo=python&logoColor=white) ![uvloop](https://img.shields.io/badge/uvloop-00ADD8?style=flat-square&logoColor=white) |
 | **Async** | ![aiohttp](https://img.shields.io/badge/aiohttp-2C5BB4?style=flat-square&logo=aiohttp&logoColor=white) ![asyncio](https://img.shields.io/badge/asyncio-3776AB?style=flat-square&logo=python&logoColor=white) |
 | **Web** | ![Flask](https://img.shields.io/badge/Flask-000000?style=flat-square&logo=flask&logoColor=white) ![TailwindCSS](https://img.shields.io/badge/Tailwind-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white) |
 | **Data** | ![Pydantic](https://img.shields.io/badge/Pydantic-E92063?style=flat-square&logo=pydantic&logoColor=white) ![Chart.js](https://img.shields.io/badge/Chart. js-FF6384?style=flat-square&logo=chartdotjs&logoColor=white) |
@@ -262,7 +260,7 @@ ATHENA sends beautifully formatted alerts directly to your Telegram:
 ⚡ ARB SIGNAL DETECTED ⚡
 ───────────────────
 🕒 14:00 UTC
-💎 Best Spread: +0.4523%
+💎 Best Spread:  +0.4523%
 📊 Opportunities: 47
 
 🏆 TOP 10 PER ROUND (8H)
@@ -300,7 +298,7 @@ Contributions are welcome! Here's how you can help:
 
 ## ⚠️ Disclaimer
 
-> **This software is for educational and research purposes only. ** 
+> **This software is for educational and research purposes only.**
 > 
 > Cryptocurrency trading involves substantial risk of loss.  The authors are not responsible for any financial losses incurred from using this software.  Always do your own research and never trade with money you cannot afford to lose. 
 
@@ -308,7 +306,7 @@ Contributions are welcome! Here's how you can help:
 
 ## 📄 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details. 
 
 <br/>
 

@@ -7,7 +7,7 @@
 [![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![Async](https://img.shields.io/badge/Async-Powered-6366f1?style=for-the-badge&logo=fastapi&logoColor=white)](https://docs.python.org/3/library/asyncio.html)
 [![License](https://img.shields.io/badge/License-MIT-10b981?style=for-the-badge)](LICENSE)
-[![Exchanges](https://img.shields.io/badge/Exchanges-13+-ef4444?style=for-the-badge&logo=bitcoin&logoColor=white)](#-supported-exchanges)
+[![Exchanges](https://img.shields.io/badge/Exchanges-19+-ef4444?style=for-the-badge&logo=bitcoin&logoColor=white)](#-supported-exchanges)
 
 <br/>
 
@@ -30,7 +30,7 @@
 
 <br/>
 
-*A high-performance, asynchronous Python system that scans 13+ cryptocurrency exchanges in real-time to identify profitable funding rate arbitrage opportunities across perpetual futures markets.*
+*A High-Performance, Asynchronous Python System That Scans 19+ Cryptocurrency Exchanges In Real-Time To Identify Profitable Funding Rate Arbitrage Opportunities Across Perpetual Futures Markets.*
 
 <br/>
 
@@ -48,9 +48,9 @@
 
 <br/>
 
-## 🎯 What is Funding Rate Arbitrage? 
+## 🎯 What is Funding Rate Arbitrage?  
 
-Funding rates are periodic payments exchanged between long and short positions in perpetual futures markets. When there's a **significant difference** in funding rates between exchanges, you can: 
+Funding rates are periodic payments exchanged between long and short positions in perpetual futures markets. When there's a **significant difference** in funding rates between exchanges, you can:  
 
 ```
 ┌────────────────────────────────────────────────────────────────────┐
@@ -113,22 +113,19 @@ Funding rates are periodic payments exchanged between long and short positions i
 <div align="center">
 
 | Exchange | Status | Exchange | Status |
-|: --------:|:------:|: --------:|:------:|
-| ![Binance](https://img.shields.io/badge/Binance-FCD535?style=flat-square&logo=binance&logoColor=black) | ✅ Live |
-| ![OKX](https://img.shields.io/badge/OKX-000000?style=flat-square&logoColor=white) | ✅ Live |
-| ![Bybit](https://img.shields.io/badge/Bybit-F7A600?style=flat-square&logoColor=white) | ✅ Live |
-| ![KuCoin](https://img.shields.io/badge/KuCoin-23AF91?style=flat-square&logoColor=white) | ✅ Live |
-| ![Bitget](https://img.shields.io/badge/Bitget-00CEA6?style=flat-square&logoColor=white) | ✅ Live |
-| ![GateIO](https://img.shields.io/badge/Gate.io-17E7B6?style=flat-square&logoColor=white) | ✅ Live |
-| ![MEXC](https://img.shields.io/badge/MEXC-1972F5?style=flat-square&logoColor=white) | ✅ Live |
-| ![Huobi](https://img.shields.io/badge/Huobi-1F5CFF?style=flat-square&logoColor=white) | ✅ Live |
-| ![BingX](https://img.shields.io/badge/BingX-2952CC?style=flat-square&logoColor=white) | ✅ Live |
-| ![Kraken](https://img.shields.io/badge/Kraken-5741D9?style=flat-square&logoColor=white) | ✅ Live |
-| ![dYdX](https://img.shields.io/badge/dYdX-6966FF?style=flat-square&logoColor=white) | ✅ Live |
-| ![BitMEX](https://img.shields.io/badge/BitMEX-D83E31?style=flat-square&logoColor=white) | ✅ Live |
-| ![Phemex](https://img.shields.io/badge/Phemex-B89EFF?style=flat-square&logoColor=white) | ✅ Live | 
+|: --------:|:------:|:--------:|: ------:|
+| ![Binance](https://img.shields.io/badge/Binance-FCD535?style=flat-square&logo=binance&logoColor=black) | ✅ Live | ![OKX](https://img.shields.io/badge/OKX-000000?style=flat-square&logoColor=white) | ✅ Live |
+| ![Bybit](https://img.shields.io/badge/Bybit-F7A600?style=flat-square&logoColor=white) | ✅ Live | ![KuCoin](https://img.shields.io/badge/KuCoin-23AF91?style=flat-square&logoColor=white) | ✅ Live |
+| ![Bitget](https://img.shields.io/badge/Bitget-00CEA6?style=flat-square&logoColor=white) | ✅ Live | ![GateIO](https://img.shields.io/badge/Gate.io-17E7B6?style=flat-square&logoColor=white) | ✅ Live |
+| ![MEXC](https://img.shields.io/badge/MEXC-1972F5?style=flat-square&logoColor=white) | ✅ Live | ![Huobi](https://img.shields.io/badge/Huobi-1F5CFF?style=flat-square&logoColor=white) | ✅ Live |
+| ![BingX](https://img.shields.io/badge/BingX-2952CC?style=flat-square&logoColor=white) | ✅ Live | ![Kraken](https://img.shields.io/badge/Kraken-5741D9?style=flat-square&logoColor=white) | ✅ Live |
+| ![dYdX](https://img.shields.io/badge/dYdX-6966FF?style=flat-square&logoColor=white) | ✅ Live | ![BitMEX](https://img.shields.io/badge/BitMEX-D83E31?style=flat-square&logoColor=white) | ✅ Live |
+| ![Phemex](https://img.shields.io/badge/Phemex-B89EFF?style=flat-square&logoColor=white) | ✅ Live | ![HTX](https://img.shields.io/badge/HTX-2B3139?style=flat-square&logoColor=white) | ✅ Live |
+| ![Crypto.com](https://img.shields.io/badge/Crypto.com-002D74?style=flat-square&logoColor=white) | ✅ Live | ![Coinbase](https://img.shields.io/badge/Coinbase-0052FF?style=flat-square&logo=coinbase&logoColor=white) | ✅ Live |
+| ![Hyperliquid](https://img.shields.io/badge/Hyperliquid-00FFAA?style=flat-square&logoColor=black) | ✅ Live | ![CoinEx](https://img.shields.io/badge/CoinEx-3B82F6?style=flat-square&logoColor=white) | ✅ Live |
+| ![BitUnix](https://img.shields.io/badge/BitUnix-8B5CF6?style=flat-square&logoColor=white) | ✅ Live | | |
 
-**13 Exchanges** • **Hundreds of Trading Pairs** • **Real-Time Data**
+**19 Exchanges** • **Hundreds of Trading Pairs** • **Real-Time Data**
 
 </div>
 
@@ -136,28 +133,28 @@ Funding rates are periodic payments exchanged between long and short positions i
 
 ## 🖥️ Web Dashboard
 
-The built-in **Command Center** provides a stunning real-time interface: 
+The built-in **Command Center** provides a stunning real-time interface:  
 
 ```
-┌──────────────────────────────────────────────────────────────────────────┐
-│  ⚡ ATHENA                                            🟢 System Online  │
-├──────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│  ┌─────────────┐ ┌─────────────┐ ┌─────────────────────┐ ┌────────────┐  │
-│  │ TOP SPREAD  │ │OPPORTUNITIES│ │ EXCHANGE DOMINANCE  │ │  METADATA  │  │
-│  │   0.4523%   │ │     47      │ │ Long:    Bybit      │ │ 13 Exch.   │  │
-│  │  High Yield │ │   Active    │ │ Short:  Binance     │ │ 892 Pairs  │  │
-│  └─────────────┘ └─────────────┘ └─────────────────────┘ └────────────┘  │
-│                                                                          │
-│  ┌────────────────────────────────────────────────────────────────────┐  │
-│  │  #  │  PAIR      │  SPREAD   │  STRATEGY           │  LONG │ SHORT │  │
-│  ├─────┼────────────┼───────────┼─────────────────────┼───────┼───────┤  │
-│  │  1  │  XYZUSDT   │ +0.4523%  │  Bybit → Binance    │ -0.02%│ +0.43%│  │
-│  │  2  │  ABCUSDT   │ +0.3891%  │  OKX → Bitget       │ -0.01%│ +0.38%│  │
-│  │  3  │  DEFUSDT   │ +0.2156%  │  KuCoin → MEXC      │ +0.05%│ +0.27%│  │
-│  └────────────────────────────────────────────────────────────────────┘  │
-│                                                                          │
-└──────────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────┐
+│  ⚡ ATHENA                                            🟢 System Online      │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────────────┐ ┌────────────────┐  │
+│  │ TOP SPREAD  │ │OPPORTUNITIES│ │ EXCHANGE DOMINANCE  │ │  METADATA      │  │
+│  │   0.4523%   │ │     47      │ │ Long:     Bybit     │ │ 19 Exch.       │  │ 
+│  │  High Yield │ │   Active    │ │ Short:  Binance     │ │ 1200+ Pairs    │  │
+│  └─────────────┘ └─────────────┘ └─────────────────────┘ └────────────────┘  │
+│                                                                              │
+│  ┌──────────────────────────────────────────────────────────────────────┐    │
+│  │  #  │  PAIR      │  SPREAD   │  STRATEGY           │  LONG │ SHORT   │    │
+│  ├─────┼────────────┼───────────┼─────────────────────┼───────┼─────────┤    │
+│  │  1  │  XYZUSDT   │ +0.4523%  │  Bybit → Binance    │ -0.02%│ +0.43%  │    │
+│  │  2  │  ABCUSDT   │ +0.3891%  │  OKX → Bitget       │ -0.01%│ +0.38%  │    │
+│  │  3  │  DEFUSDT   │ +0.2156%  │  KuCoin → MEXC      │ +0.05%│ +0.27%  │    │
+│  └──────────────────────────────────────────────────────────────────────┘    │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
 ```
 
 **Features:**
@@ -187,8 +184,8 @@ cd Real-Time-Multi-Exchange-Funding-Rate-Arbitrage-System
 pip install -r requirements.txt
 
 # Configure environment variables
-cp .env.example . env
-# Edit . env with your settings
+cp .env.example .env
+# Edit .env with your settings
 ```
 
 ### Run
@@ -204,7 +201,7 @@ python main.py
 
 ## ⚙️ Configuration
 
-Create a `.env` file in the project root: 
+Create a `.env` file in the project root:  
 
 ```env
 # ATHENA CONFIGURATION
@@ -230,7 +227,7 @@ TELEGRAM_CHAT_IDS=123456789,987654321
 ```
 📦 Real-Time-Multi-Exchange-Funding-Rate-Arbitrage-System
 ├── 🚀 main.py              # Application entry point & orchestrator
-├── 📡 fetcher.py           # Async exchange data fetchers (13 exchanges)
+├── 📡 fetcher.py           # Async exchange data fetchers (19 exchanges)
 ├── 🌐 web_dashboard.py     # Flask web UI & API endpoints
 ├── 🔔 notifier.py          # Telegram notification system
 ├── 📊 models.py            # Pydantic data models (FundingRate, Opportunity)
@@ -249,7 +246,7 @@ TELEGRAM_CHAT_IDS=123456789,987654321
 |:--------:|:-------------|
 | **Runtime** | ![Python](https://img.shields.io/badge/Python_3.9+-3776AB?style=flat-square&logo=python&logoColor=white) ![uvloop](https://img.shields.io/badge/uvloop-00ADD8?style=flat-square&logoColor=white) |
 | **Async** | ![aiohttp](https://img.shields.io/badge/aiohttp-2C5BB4?style=flat-square&logo=aiohttp&logoColor=white) ![asyncio](https://img.shields.io/badge/asyncio-3776AB?style=flat-square&logo=python&logoColor=white) |
-| **Web** | ![Flask](https://img.shields.io/badge/Flask-000000?style=flat-square&logo=flask&logoColor=white) ![TailwindCSS](https://img.shields.io/badge/Tailwind-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white) |
+| **Web** | ![Flask](https://img.shields.io/badge/Flask-000000?style=flat-square&logo=flask&logoColor=white) ![TailwindCSS](https://img.shields.io/badge/Tailwind-38B2AC?style=flat-square&logo=tailwindcss&logoColor=white) |
 | **Data** | ![Pydantic](https://img.shields.io/badge/Pydantic-E92063?style=flat-square&logo=pydantic&logoColor=white) ![Chartjs](https://img.shields.io/badge/Chart.js-FF6384?style=flat-square&logo=chartdotjs&logoColor=white) |
 | **Alerts** | ![Telegram](https://img.shields.io/badge/Telegram_Bot-26A5E4?style=flat-square&logo=telegram&logoColor=white) |
 | **CLI** | ![Rich](https://img.shields.io/badge/Rich-4B8BBE?style=flat-square&logoColor=white) |
@@ -260,14 +257,14 @@ TELEGRAM_CHAT_IDS=123456789,987654321
 
 ## 📱 Telegram Alerts
 
-ATHENA sends beautifully formatted alerts directly to your Telegram: 
+ATHENA sends beautifully formatted alerts directly to your Telegram:  
 
 ```
 ⚡ ARB SIGNAL DETECTED ⚡
 ───────────────────
 🕒 14:00 UTC
 💎 Best Spread: +0.4523%
-📊 Opportunities: 47
+📊 Opportunities:  47
 
 🏆 TOP 10 PER ROUND (8H)
 
@@ -294,7 +291,7 @@ Contributions are welcome! Here's how you can help:
 5. 🔃 **Open** a Pull Request
 
 ### Ideas for Contribution
-- [ ] Add more exchanges (Deribit, Coinbase, etc.)
+- [ ] Add more exchanges (Deribit, Bitstamp, etc.)
 - [ ] Implement historical data tracking
 - [ ] Create Docker containerization
 - [ ] Add automated trading execution
@@ -306,13 +303,13 @@ Contributions are welcome! Here's how you can help:
 
 > **This software is for educational and research purposes only.**
 > 
-> Cryptocurrency trading involves substantial risk of loss.  The authors are not responsible for any financial losses incurred from using this software.  Always do your own research and never trade with money you cannot afford to lose. 
+> Cryptocurrency trading involves substantial risk of loss. The authors are not responsible for any financial losses incurred from using this software.  Always do your own research and never trade with money you cannot afford to lose. 
 
 <br/>
 
 ## 📄 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details. 
 
 <br/>
 
@@ -325,7 +322,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 <br/>
 
 [![GitHub](https://img.shields.io/badge/GitHub-Siddharthk17-181717?style=for-the-badge&logo=github)](https://github.com/Siddharthk17)
-[![Stars](https://img.shields.io/github/stars/Siddharthk17/Real-Time-Multi-Exchange-Funding-Rate-Arbitrage-System?style=for-the-badge&logo=github&color=6366f1)](https://github.com/Siddharthk17/Real-Time-Multi-Exchange-Funding-Rate-Arbitrage-System/stargazers)
+[![Stars](https://img.shields.io/github/stars/Siddharthk17/Real-Time-Multi-Exchange-Funding-Rate-Arbitrage-System?style=for-the-badge&logo=github&color=6366f1)](https://github.com/Siddharthk17/Real-Time-Multi-Exchange-Funding-Rate-Arbitrage-System)
 
 <br/>
 

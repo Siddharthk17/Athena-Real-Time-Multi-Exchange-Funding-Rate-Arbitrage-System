@@ -1,10 +1,21 @@
 import logging
-from flask import Flask, render_template_string, jsonify
+from flask import Flask, render_template_string, Response
 from threading import Lock
 import json
 import time
-from datetime import datetime, timedelta
+from datetime import datetime
 from collections import Counter
+
+# Try orjson for 3-5x faster JSON serialization
+try:
+    import orjson
+    def json_dumps(obj):
+        return orjson.dumps(obj).decode('utf-8')
+    HAS_ORJSON = True
+except ImportError:
+    def json_dumps(obj):
+        return json.dumps(obj, separators=(',', ':'))
+    HAS_ORJSON = False
 
 # Silence Flask logs for cleaner console
 log = logging.getLogger('werkzeug')
@@ -12,70 +23,70 @@ log.setLevel(logging.ERROR)
 
 app = Flask(__name__)
 
-# Thread-safe Data Store
+# Thread-safe Data Store — pre-serialized for zero-cost JSON response
 data_lock = Lock()
-latest_data = {
+_cached_response = b'{"opportunities":[],"metadata":{}}'
+_latest_data = {
     "opportunities": [],
-    "metadata": {
-        "last_update": 0,
-        "total_pairs_scanned": 0,
-        "active_exchanges": 0,
-        "top_long_exchange": "Analyzing...",
-        "top_short_exchange": "Analyzing...",
-        "api_latency": 0
-    }
+    "metadata": {}
 }
 
 def update_dashboard_data(opportunities, total_pairs_count=0):
-    global latest_data
+    global _latest_data, _cached_response
+    timestamp = time.time()
+
+    # 1. Convert Objects to Dicts inline (fast)
+    opps_list = []
+    append = opps_list.append
+    all_long = []
+    all_short = []
+    exchanges_seen = set()
+
+    for opp in opportunities:
+        append({
+            "symbol": opp.symbol,
+            "spread": opp.spread,
+            "long_exchange": opp.long_exchange,
+            "long_rate": opp.long_rate,
+            "short_exchange": opp.short_exchange,
+            "short_rate": opp.short_rate,
+            "annualized": opp.annualized_spread
+        })
+        all_long.append(opp.long_exchange)
+        all_short.append(opp.short_exchange)
+        exchanges_seen.add(opp.long_exchange)
+        exchanges_seen.add(opp.short_exchange)
+
+    # 2. Analytics
+    top_long = Counter(all_long).most_common(1)
+    top_short = Counter(all_short).most_common(1)
+
+    metadata = {
+        "last_update": timestamp,
+        "total_pairs_scanned": total_pairs_count,
+        "active_exchanges": len(exchanges_seen),
+        "top_long_exchange": top_long[0][0] if top_long else "N/A",
+        "top_short_exchange": top_short[0][0] if top_short else "N/A",
+        "count": len(opps_list)
+    }
+
+    # 3. Pre-serialize JSON outside the lock (fast path)
+    data = {"opportunities": opps_list, "metadata": metadata}
+    serialized = json_dumps(data).encode('utf-8')
+
+    # 4. Atomic swap under lock (tiny critical section)
     with data_lock:
-        timestamp = time.time()
-        
-        # 1. Convert Objects to Dicts
-        opps_list = []
-        all_long_exchanges = []
-        all_short_exchanges = []
-        unique_exchanges = set()
+        _latest_data = data
+        _cached_response = serialized
 
-        for opp in opportunities:
-            opps_list.append({
-                "symbol": opp.symbol,
-                "spread": opp.spread, # Raw float (e.g., 0.65)
-                "long_exchange": opp.long_exchange,
-                "long_rate": opp.long_rate,
-                "short_exchange": opp.short_exchange,
-                "short_rate": opp.short_rate,
-                "annualized": opp.annualized_spread
-            })
-            all_long_exchanges.append(opp.long_exchange)
-            all_short_exchanges.append(opp.short_exchange)
-            unique_exchanges.add(opp.long_exchange)
-            unique_exchanges.add(opp.short_exchange)
-
-        # 2. Analytics: Find Dominant Exchanges
-        top_long = Counter(all_long_exchanges).most_common(1)
-        top_long_name = top_long[0][0] if top_long else "N/A"
-
-        top_short = Counter(all_short_exchanges).most_common(1)
-        top_short_name = top_short[0][0] if top_short else "N/A"
-
-        # 3. Update State
-        latest_data = {
-            "opportunities": opps_list,
-            "metadata": {
-                "last_update": timestamp,
-                "total_pairs_scanned": total_pairs_count,
-                "active_exchanges": len(unique_exchanges),
-                "top_long_exchange": top_long_name,
-                "top_short_exchange": top_short_name,
-                "count": len(opps_list)
-            }
-        }
 
 @app.route('/api/data')
 def get_data():
+    # Return pre-serialized JSON — no lock needed for read
     with data_lock:
-        return jsonify(latest_data)
+        resp = _cached_response
+    return Response(resp, mimetype='application/json')
+
 
 @app.route("/")
 def dashboard():
@@ -92,7 +103,7 @@ HTML_TEMPLATE = r"""
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funding Arbitrage Command Center</title>
+    <title>ATHENA — Funding Rate Arbitrage Command Center</title>
     
     <!-- Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -116,11 +127,11 @@ HTML_TEMPLATE = r"""
                             border: '#1E1E24'
                         },
                         neon: {
-                            primary: '#6366f1',  /* Indigo */
-                            success: '#10b981',  /* Emerald */
-                            danger: '#ef4444',   /* Red */
-                            warning: '#eab308',  /* Yellow */
-                            cyan: '#06b6d4'      /* Cyan */
+                            primary: '#6366f1',
+                            success: '#10b981',
+                            danger: '#ef4444',
+                            warning: '#eab308',
+                            cyan: '#06b6d4'
                         }
                     },
                     animation: {
@@ -164,6 +175,20 @@ HTML_TEMPLATE = r"""
         .custom-scroll::-webkit-scrollbar-track { background: #0E0E12; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #2d2d35; border-radius: 3px; }
         .custom-scroll::-webkit-scrollbar-thumb:hover { background: #4f4f5a; }
+
+        .latency-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-size: 10px;
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+        }
+        .latency-fast { background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3); }
+        .latency-ok { background: rgba(234,179,8,0.15); color: #eab308; border: 1px solid rgba(234,179,8,0.3); }
+        .latency-slow { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
     </style>
 </head>
 <body class="h-screen flex flex-col overflow-hidden">
@@ -178,12 +203,18 @@ HTML_TEMPLATE = r"""
                 <h1 class="font-bold text-xl tracking-wide text-white"><span class="text-neon-cyan">ATHENA</span></h1>
                 <div class="flex items-center gap-2 text-[10px] uppercase tracking-wider text-gray-500 font-mono">
                     <span class="w-2 h-2 rounded-full bg-neon-success animate-pulse"></span>
-                    System Online
+                    System Online • 20 Exchanges
                 </div>
             </div>
         </div>
 
         <div class="flex items-center gap-6">
+            <!-- Latency Indicator -->
+            <div id="latency-badge" class="latency-badge latency-fast">
+                <i class="fa-solid fa-bolt"></i>
+                <span id="latency-text">--ms</span>
+            </div>
+            
             <!-- Funding Countdown -->
             <div class="hidden md:flex flex-col items-end">
                 <span class="text-xs text-gray-400 font-mono">NEXT FUNDING</span>
@@ -294,7 +325,6 @@ HTML_TEMPLATE = r"""
 
                     <!-- Table Body -->
                     <div id="opp-list" class="flex-1 overflow-y-auto custom-scroll p-2 space-y-1">
-                        <!-- JS Injects Rows Here -->
                         <div class="flex flex-col items-center justify-center h-full text-gray-600">
                             <i class="fa-solid fa-circle-notch fa-spin text-3xl mb-4 text-neon-primary"></i>
                             <span class="font-mono text-xs">ESTABLISHING DATA FEED...</span>
@@ -320,7 +350,6 @@ HTML_TEMPLATE = r"""
                         <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-dark-bg/50 pointer-events-none"></div>
                         
                         <div id="activity-log" class="font-mono text-[10px] space-y-2 overflow-y-auto custom-scroll pr-2">
-                            <!-- JS logs -->
                         </div>
                     </div>
                 </div>
@@ -330,11 +359,9 @@ HTML_TEMPLATE = r"""
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // CONSTANTS & STATE
         let chartInstance = null;
         let lastDataHash = "";
         
-        // DOM ELEMENTS
         const dom = {
             oppList: document.getElementById('opp-list'),
             stats: {
@@ -348,10 +375,11 @@ HTML_TEMPLATE = r"""
             search: document.getElementById('table-search'),
             timer: document.getElementById('funding-timer'),
             clock: document.getElementById('utc-clock'),
-            logs: document.getElementById('activity-log')
+            logs: document.getElementById('activity-log'),
+            latencyBadge: document.getElementById('latency-badge'),
+            latencyText: document.getElementById('latency-text')
         };
 
-        // CHART SETUP
         function initChart() {
             const ctx = document.getElementById('spreadChart').getContext('2d');
             chartInstance = new Chart(ctx, {
@@ -384,26 +412,25 @@ HTML_TEMPLATE = r"""
             });
         }
 
-        // UTILS
         const formatPct = (num) => (num).toFixed(4) + '%';
-        const formatRate = (num) => (num).toFixed(4) + '%';
         
         function updateClock() {
             const now = new Date();
             dom.clock.innerText = now.toISOString().split('T')[1].split('.')[0] + " UTC";
-            
-            // Funding Countdown (Every 8 hours: 00, 08, 16)
             const h = now.getUTCHours();
             const targetH = h < 8 ? 8 : h < 16 ? 16 : 24;
             const target = new Date(now);
             target.setUTCHours(targetH, 0, 0, 0);
-            
             const diff = target - now;
             const hh = Math.floor(diff / 3600000).toString().padStart(2, '0');
             const mm = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
             const ss = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
-            
             dom.timer.innerText = `${hh}:${mm}:${ss}`;
+        }
+
+        function updateLatencyBadge(ms) {
+            dom.latencyText.textContent = ms + 'ms';
+            dom.latencyBadge.className = 'latency-badge ' + (ms < 250 ? 'latency-fast' : ms < 500 ? 'latency-ok' : 'latency-slow');
         }
 
         function addLog(symbol, spread) {
@@ -417,87 +444,74 @@ HTML_TEMPLATE = r"""
             if (dom.logs.children.length > 20) dom.logs.lastChild.remove();
         }
 
-        // DATA RENDERER
         async function render() {
             try {
+                const t0 = performance.now();
                 const res = await fetch('/api/data');
                 const data = await res.json();
+                const fetchMs = Math.round(performance.now() - t0);
+                updateLatencyBadge(fetchMs);
                 
-                // Allow empty opps list if scan is active
                 if (!data.metadata) return;
-
                 const meta = data.metadata;
                 const opps = data.opportunities;
 
-                // 1. Update Stats
                 dom.stats.maxSpread.innerText = opps.length > 0 ? formatPct(opps[0].spread) : "0.00%";
                 dom.stats.count.innerText = meta.count;
                 dom.stats.longDom.innerText = meta.top_long_exchange;
                 dom.stats.shortDom.innerText = meta.top_short_exchange;
                 dom.stats.exchanges.innerText = meta.active_exchanges;
-                dom.stats.pairs.innerText = meta.total_pairs_scanned; // Updated from backend
+                dom.stats.pairs.innerText = meta.total_pairs_scanned;
 
-                // 2. Filter Data
                 const filter = dom.search.value.toUpperCase();
-                const filteredOpps = opps.filter(o => o.symbol.includes(filter));
+                const filteredOpps = filter ? opps.filter(o => o.symbol.includes(filter)) : opps;
 
-                // 3. Render Table List
                 let html = '';
-                filteredOpps.forEach((o, i) => {
+                for (let i = 0; i < filteredOpps.length; i++) {
+                    const o = filteredOpps[i];
                     const rankColor = i === 0 ? 'text-yellow-400' : i === 1 ? 'text-gray-300' : i === 2 ? 'text-orange-400' : 'text-gray-600';
                     const spread = formatPct(o.spread);
-                    
                     const lRate = o.long_rate.toFixed(4) + '%';
                     const sRate = o.short_rate.toFixed(4) + '%';
-                    
-                    // Logic: Negative Funding = Green (Received), Positive = Red (Paid)
-                    // Note: Long Position receives if negative. Short Position receives if positive.
                     const lClass = o.long_rate < 0 ? 'text-neon-success' : 'text-neon-danger';
                     const sClass = o.short_rate > 0 ? 'text-neon-success' : 'text-neon-danger';
 
                     html += `
                     <div class="grid grid-cols-12 gap-2 px-4 py-3 bg-dark-bg/40 rounded-lg hover:bg-white/5 border border-transparent hover:border-white/10 transition-all items-center group">
                         <div class="col-span-1 text-center font-mono font-bold ${rankColor}">${i+1}</div>
-                        
                         <div class="col-span-2 font-bold text-white flex items-center gap-2">
                             ${o.symbol}
                             <i class="fa-regular fa-copy text-[10px] text-gray-600 cursor-pointer hover:text-white" title="Copy Pair" onclick="navigator.clipboard.writeText('${o.symbol}')"></i>
                         </div>
-                        
                         <div class="col-span-2 text-right">
                             <span class="text-neon-success font-bold font-mono tracking-wide text-sm bg-neon-success/10 px-2 py-1 rounded border border-neon-success/20 shadow-[0_0_10px_rgba(16,185,129,0.2)]">
                                 ${spread}
                             </span>
                         </div>
-                        
                         <div class="col-span-3 text-center flex justify-center items-center gap-2 text-[10px] font-mono text-gray-400">
                             <span class="px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">${o.long_exchange}</span>
                             <i class="fa-solid fa-arrow-right-long"></i>
                             <span class="px-1.5 py-0.5 rounded bg-red-500/10 text-red-400 border border-red-500/20">${o.short_exchange}</span>
                         </div>
-                        
                         <div class="col-span-2 text-xs text-gray-400">
                             <span class="${lClass}">${lRate}</span>
                         </div>
-                        
                         <div class="col-span-2 text-xs text-gray-400">
                             <span class="${sClass}">${sRate}</span>
                         </div>
                     </div>`;
-                });
+                }
 
                 if (html === '') html = '<div class="text-center py-10 text-gray-600 font-mono">SCANNING MARKETS...</div>';
                 dom.oppList.innerHTML = html;
 
-                // 4. Update Chart (Top 5 only)
                 if (chartInstance && filteredOpps.length > 0) {
                     const top5 = filteredOpps.slice(0, 5);
                     chartInstance.data.labels = top5.map(o => o.symbol);
                     chartInstance.data.datasets[0].data = top5.map(o => o.spread);
-                    chartInstance.update('none'); 
+                    chartInstance.update('none');
                 }
 
-                // 5. Activity Log
                 if (opps.length > 0 && opps[0].symbol !== lastDataHash) {
                     addLog(opps[0].symbol, opps[0].spread);
                     lastDataHash = opps[0].symbol;
@@ -508,12 +522,10 @@ HTML_TEMPLATE = r"""
             }
         }
 
-        // INIT
         initChart();
         setInterval(updateClock, 1000);
-        setInterval(render, 2000); 
+        setInterval(render, 1000);
         render();
-
     </script>
 </body>
 </html>

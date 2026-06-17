@@ -1,7 +1,7 @@
 aiohttp
 flask
-python-telegram-bot
 python-dotenv
 pydantic
 rich
 uvloop  # For blazing fast async on Linux/Mac
+orjson   # 3-5x faster JSON serialization
